@@ -1,0 +1,51 @@
+body {
+    background-color: #151b27;
+    text-align: center;
+    color: #ffffff;
+    font-family: arial, sans-serif;
+  }
+  
+  .container {
+    width: 400px;
+    margin: 100px auto;
+    padding: 50px;
+    background-color: #38393d;
+    border-radius: 8px;
+    position: relative;
+  }
+  
+  .voltar {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+  }
+  
+  input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 15px;
+  }
+  
+  input {
+    background: #555;
+    color: #cacacc;
+    font-size: 18px;
+  }
+  
+  button {
+    background-color: blue;
+    width: 200px;
+    cursor: pointer;
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 20px;
+  }
+  
