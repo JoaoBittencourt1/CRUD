@@ -68,7 +68,7 @@ const Home = () => {
         </div>
       </form>
       <div className="sign-up-link">
-        <p>Não tem uma conta? <Link to="/NovaConta">Aperte aqui</Link></p>
+        <p>Não tem uma conta? <Link to="/NovaConta">Clique aqui</Link></p>
       </div>
     </div>
   );

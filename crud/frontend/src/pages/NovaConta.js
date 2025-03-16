@@ -69,7 +69,7 @@ const NovaConta = () => {
         onBlur={handleSenhaBlur}
         onChange={(e) => setConfirmarSenha(e.target.value)}
       />
-      <Link to="/home">
+      <Link to="/ContaSucesso">
         <button>Confirmar</button>
       </Link>
     </div>
