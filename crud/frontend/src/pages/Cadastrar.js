@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link} from "react-router-dom";
 
 
 const Cadastrar = () => {
@@ -77,7 +77,7 @@ const Cadastrar = () => {
           />
         </div>
 
-        <button type="submit">Confirmar</button>
+        <Link to="/CadastrarSucesso"><button type="submit">Confirmar</button></Link>
       </form>
     </div>
   );

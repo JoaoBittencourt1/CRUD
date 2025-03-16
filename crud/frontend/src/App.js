@@ -7,6 +7,7 @@ import RecuperarSenha from './pages/RecuperarSenha';
 import ContaSucesso from "./pages/ContaSucesso";
 import SenhaRecuperada from "./pages/SenhaRecuperada";
 import Cadastrar from "./pages/Cadastrar";
+import CadastrarSucesso from "./pages/CadastrarSucesso";
 
 
 function App() {
@@ -32,6 +33,8 @@ function App() {
         <Route path="/SenhaRecuperada" element={<SenhaRecuperada />} />
 
         <Route path="/Cadastrar" element={<Cadastrar />} />
+
+        <Route path="/CadastrarSucesso" element={<CadastrarSucesso />} />
       </Routes>
     </Router>
   );
