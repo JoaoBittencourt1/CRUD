@@ -15,7 +15,7 @@ function Dados() {
   return (
     <div className="container">
       <button>Listar</button>
-      <button>Cadastrar</button>
+      <Link to="/Cadastrar"><button>Cadastrar</button></Link>
       <button>Excluir</button>
     </div>
   );

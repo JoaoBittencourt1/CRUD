@@ -39,7 +39,7 @@ const RecuperarSenha = () => {
           }
         }}
       />
-      <Link to="/home">
+      <Link to="/SenhaRecuperada">
         <button>Confirmar</button>
       </Link>
     </div>
