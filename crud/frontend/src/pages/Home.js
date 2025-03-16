@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './styles/Home.css';
 
@@ -6,19 +6,24 @@ const Home = () => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [lembre, setLembre] = useState(false);
+  const [dados, setDados] = useState([]); // Estado para armazenar os dados do banco
+
+  useEffect(() => {
+    fetch('http://localhost:3001/dados') // Ajuste conforme necessário
+      .then(response => response.json())
+      .then(data => setDados(data))
+      .catch(error => console.error('Erro ao buscar os dados:', error));
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Lógica de envio de formulário
     console.log('Email:', email, 'Senha:', senha, 'Lembre:', lembre);
   };
-
-  
 
   return (
     <div className="login-box">
       <div className="login-header">
-        <header>Seja Bem Vindo a Farmácia</header>
+        <header>Seja Bem Vindo à Farmácia</header>
       </div>
       <form onSubmit={handleSubmit}>
         <div className="input-box">
@@ -52,18 +57,18 @@ const Home = () => {
             <label htmlFor="check">Lembre do meu acesso anterior</label>
           </section>
           <section>
-            <a href="#"><Link to="/RecuperarSenha">Esqueceu sua senha?</Link></a>
+            <Link to="/RecuperarSenha">Esqueceu sua senha?</Link>
           </section>
         </div>
         <div className="input-submit">
-        <Link to="/dados">
-          <button className="submit-btn" id="submit" type="button"></button>
-        </Link>
+          <Link to="/dados">
+            <button className="submit-btn" id="submit" type="button"></button>
+          </Link>
           <label htmlFor="submit">Entrar</label>
         </div>
       </form>
       <div className="sign-up-link">
-      <p>Não tem uma conta? <Link to="/NovaConta">Aperte aqui</Link></p>
+        <p>Não tem uma conta? <Link to="/NovaConta">Aperte aqui</Link></p>
       </div>
     </div>
   );

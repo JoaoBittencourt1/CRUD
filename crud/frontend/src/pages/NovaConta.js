@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './styles/NovaConta.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const NovaConta = () => {
   const [nome, setNome] = useState('Nome');
@@ -37,8 +37,8 @@ const NovaConta = () => {
 
   return (
     <div className="container">
-      <a href="#" className="voltar" onClick={() => navigate('/home')}>
-      &#8592;
+      <a className="voltar" onClick={() => navigate('/home')}>
+        &#8592;
       </a>
       <h1>Nova Conta</h1>
       <input
@@ -69,7 +69,9 @@ const NovaConta = () => {
         onBlur={handleSenhaBlur}
         onChange={(e) => setConfirmarSenha(e.target.value)}
       />
-      <button>Confirmar</button>
+      <Link to="/home">
+        <button>Confirmar</button>
+      </Link>
     </div>
   );
 };
