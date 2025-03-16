@@ -1,71 +1,39 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar Conta</title>
-    <style>
-        body {
-            background-color: #151b27;
-            text-align: center;
-            color: #ffffff;
-            font-family: arial, sans-serif;
-        }
-
-        .container {
-            width: 400px;
-            margin: 100px auto;
-            padding: 50px;
-            background-color: #38393d;
-            border-radius: 8px;
-            position: relative;
-        }
-
-        .voltar {
-            position: absolute;
-            left: 10px;
-            top: 10px;
-            font-size: 30px; 
-            cursor: pointer;
-            color: white;
-            text-decoration: none;
-        }
-
-        input, button {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: none;
-            border-radius: 15px;
-        }
-
-        input {
-            background: #555;
-            color: #cacacc;
-            font-size: 18px;
-        }
-
-        button {
-            background-color: blue;
-            width: 200px;
-            cursor: pointer;
-            margin: 20px 0;
-            padding: 10px;
-            border-radius: 10px;
-            color: #ffffff;
-            font-size: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <title>Login Farmacia UCB </title>
 </head>
 <body>
-    <div class="container">
-        <a href="#" class="voltar">&#8592;</a>
-        <h1>Nova Conta</h1>
-        <input type="text" value="Nome" onfocus="if(this.value=='Nome') this.value='';" onblur="if(this.value=='') this.value='Nome';">
-        <input type="email" value="Email" onfocus="if(this.value=='Email') this.value='';" onblur="if(this.value=='') this.value='Email';">
-        <input type="text" value="Senha" onfocus="this.value=''; this.type='password';" onblur="if(this.value=='') { this.value='••••••'; this.type='text'; }">
-        <input type="text" value="Confirmar senha" onfocus="this.value=''; this.type='password';" onblur="if(this.value=='') { this.value='••••••'; this.type='text'; }">
-        <button>Confirmar</button>
+    <div class="login-box">
+        <div class="login-header">
+            <header>Seja Bem Vindo a Farmácia</header>
+        </div>
+        <div class="input-box">
+            <input type="text" class="input-field" placeholder="Email" autocomplete="off" required>
+        </div>
+        <div class="input-box">
+            <input type="password" class="input-field" placeholder="Senha" autocomplete="off" required>
+        </div>
+        <div class="forgot">
+            <section>
+                <input type="checkbox" id="check">
+                <label for="check">lembre do meu acesso anterior</label>
+            </section>
+            <section>
+                <a href="#">Esqueceu sua senha ?</a>
+            </section>
+        </div>
+        <div class="input-submit">
+            <button class="submit-btn" id="submit"></button>
+            <label for="submit">Entrar</label>
+        </div>
+        <div class="sign-up-link">
+            <p>Já tem um conta ? <a href="#">Aperte aqui </a></p>
+        </div>
     </div>
 </body>
 </html>
