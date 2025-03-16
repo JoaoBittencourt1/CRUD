@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Home from './pages/Home';
 import Dados from './pages/Dados';
 import NovaConta from './pages/NovaConta';
+import RecuperarSenha from './pages/RecuperarSenha';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         
         
         <Route path="/NovaConta" element={<NovaConta />} />
+
+        <Route path="/RecuperarSenha" element={<RecuperarSenha />} />
       </Routes>
     </Router>
   );

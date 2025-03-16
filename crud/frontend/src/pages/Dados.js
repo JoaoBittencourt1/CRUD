@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './styles/Dados.css';
 
 function Dados() {
   const [dados, setDados] = useState([]);
@@ -12,14 +13,10 @@ function Dados() {
   }, []);
 
   return (
-    <div>
-      <h1>Dados do Banco de Dados</h1>
-      <ul>
-        {dados.map((item) => (
-          <li key={item.id}>{item.nome} - {item.descricao}</li>
-        ))}
-      </ul>
-      <Link to="/">Voltar</Link>
+    <div className="container">
+      <button>Listar</button>
+      <button>Cadastrar</button>
+      <button>Excluir</button>
     </div>
   );
 }

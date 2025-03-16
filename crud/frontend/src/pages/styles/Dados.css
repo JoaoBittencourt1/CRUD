@@ -1,0 +1,29 @@
+body {
+    background-color: #151b27;
+    text-align: center;
+    color: #ffffff;
+    font-family: arial, sans-serif;
+  }
+  
+  .container {
+    width: 400px;
+    margin: 100px auto;
+    padding: 50px;
+    background-color: #38393d;
+    border-radius: 8px;
+    position: relative;
+  }
+  
+  button {
+    width: 100%;
+    background-color: #008DF4;
+    width: 200px;
+    cursor: pointer;
+    border: none;
+    margin: 15px 0;
+    padding: 10px;
+    border-radius: 15px;
+    color: #ffffff;
+    font-size: 35px;
+  }
+  

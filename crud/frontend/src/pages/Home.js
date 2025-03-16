@@ -13,6 +13,8 @@ const Home = () => {
     console.log('Email:', email, 'Senha:', senha, 'Lembre:', lembre);
   };
 
+  
+
   return (
     <div className="login-box">
       <div className="login-header">
@@ -50,11 +52,13 @@ const Home = () => {
             <label htmlFor="check">Lembre do meu acesso anterior</label>
           </section>
           <section>
-            <a href="#">Esqueceu sua senha?</a>
+            <a href="#"><Link to="/RecuperarSenha">Esqueceu sua senha?</Link></a>
           </section>
         </div>
         <div className="input-submit">
-          <button className="submit-btn" id="submit" type="submit"></button>
+        <Link to="/dados">
+          <button className="submit-btn" id="submit" type="button"></button>
+        </Link>
           <label htmlFor="submit">Entrar</label>
         </div>
       </form>
