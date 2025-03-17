@@ -8,6 +8,7 @@ import ContaSucesso from "./pages/ContaSucesso";
 import SenhaRecuperada from "./pages/SenhaRecuperada";
 import Cadastrar from "./pages/Cadastrar";
 import CadastrarSucesso from "./pages/CadastrarSucesso";
+import Excluir from "./pages/Excluir";
 
 
 function App() {
@@ -35,6 +36,8 @@ function App() {
         <Route path="/Cadastrar" element={<Cadastrar />} />
 
         <Route path="/CadastrarSucesso" element={<CadastrarSucesso />} />
+        
+        <Route path="/Excluir" element={<Excluir />} />
       </Routes>
     </Router>
   );
