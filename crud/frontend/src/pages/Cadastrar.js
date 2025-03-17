@@ -107,3 +107,4 @@ const Cadastrar = () => {
 };
 
 export default Cadastrar;
+

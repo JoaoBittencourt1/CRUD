@@ -10,6 +10,7 @@ import Cadastrar from "./pages/Cadastrar";
 import CadastrarSucesso from "./pages/CadastrarSucesso";
 import Excluir from "./pages/Excluir";
 import ProdutoExcluido from "./pages/ProdutoExcluido";
+import Listar from "./pages/Listar";
 
 
 function App() {
@@ -41,6 +42,8 @@ function App() {
         <Route path="/Excluir" element={<Excluir />} />
 
         <Route path="/ProdutoExcluido" element={<ProdutoExcluido />} />
+
+        <Route path="/Listar" element={<Listar />} />
       </Routes>
     </Router>
   );
