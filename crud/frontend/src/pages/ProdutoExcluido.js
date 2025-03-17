@@ -8,7 +8,7 @@ const ProdutoExcluido = () => {
   return (
     <div className="container">
       <p>PRODUTO EXCLUÍDO COM SUCESSO</p>
-      <button onClick={() => navigate("/Home")}>Confirmar</button>
+      <button onClick={() => navigate("/Dados")}>Confirmar</button>
     </div>
   );
 };

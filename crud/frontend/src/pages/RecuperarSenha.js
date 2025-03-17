@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "./styles/RecuperarSenha.css";
+
 
 const RecuperarSenha = () => {
   const navigate = useNavigate();
