@@ -1,23 +1,31 @@
 import React, { useState } from "react";
-import { useNavigate, Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "./styles/Cadastrar.css";
 
 
 const Cadastrar = () => {
   const navigate = useNavigate();
-  const [nome, setNome] = useState("");
-  const [idProduto, setIdProduto] = useState("");
-  const [fabricante, setFabricante] = useState("");
-  const [tipo, setTipo] = useState("Analgésicos");
-  const [preco, setPreco] = useState("");
+  const [produto, setProduto] = useState({
+    nome: "",
+    id: "",
+    fabricante: "",
+    tipo: "",
+    preco: "",
+  });
+
+  const handleChange = (e) => {
+    setProduto({ ...produto, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ nome, idProduto, fabricante, tipo, preco });
+    console.log("Produto cadastrado:", produto);
+    navigate("/CadastrarSucesso");
   };
 
   return (
     <div className="container">
-      <a href="#" className="voltar" onClick={() => navigate("/Dados")}>
+      <a className="voltar" onClick={() => navigate('/Dados')}>
         &#8592;
       </a>
       <h1>Cadastro de Produtos</h1>
@@ -26,8 +34,9 @@ const Cadastrar = () => {
         <input
           type="text"
           id="nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
+          name="nome"
+          value={produto.nome}
+          onChange={handleChange}
           placeholder="Nome"
         />
 
@@ -35,8 +44,9 @@ const Cadastrar = () => {
         <input
           type="text"
           id="id"
-          value={idProduto}
-          onChange={(e) => setIdProduto(e.target.value)}
+          name="id"
+          value={produto.id}
+          onChange={handleChange}
           placeholder="ID"
         />
 
@@ -44,40 +54,53 @@ const Cadastrar = () => {
         <input
           type="text"
           id="fabricante"
-          value={fabricante}
-          onChange={(e) => setFabricante(e.target.value)}
+          name="fabricante"
+          value={produto.fabricante}
+          onChange={handleChange}
           placeholder="Fabricante"
         />
 
         <label htmlFor="tipo">Tipo:</label>
-        <select id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)}>
-          {[
-            "Analgésicos", "Anti-inflamatórios", "Antibióticos", "Antifúngicos",
-            "Antivirais", "Relaxante Muscular", "Antidepressivos", "Ansiolíticos",
-            "Anti-hipertensivos", "Antidiabéticos", "Anticoagulantes", "Antialérgicos",
-            "Imunossupressores", "Hormônios", "Anticoncepcionais", "Antipsicóticos",
-            "Laxantes", "Antieméticos", "Estatinas", "Broncodilatadores"
-          ].map((tipo) => (
-            <option key={tipo} value={tipo}>
-              {tipo}
-            </option>
-          ))}
+        <select id="tipo" name="tipo" value={produto.tipo} onChange={handleChange}>
+          <option value="" disabled>
+            Selecione o tipo do medicamento
+          </option>
+          <option value="Analgésicos">Analgésicos</option>
+          <option value="Anti-inflamatórios">Anti-inflamatórios</option>
+          <option value="Antibióticos">Antibióticos</option>
+          <option value="Antifúngicos">Antifúngicos</option>
+          <option value="Antivirais">Antivirais</option>
+          <option value="Relaxante Muscular">Relaxante Muscular</option>
+          <option value="Antidepressivos">Antidepressivos</option>
+          <option value="Ansiolíticos">Ansiolíticos</option>
+          <option value="Anti-hipertensivos">Anti-hipertensivos</option>
+          <option value="Antidiabéticos">Antidiabéticos</option>
+          <option value="Anticoagulantes">Anticoagulantes</option>
+          <option value="Antialérgicos">Antialérgicos</option>
+          <option value="Imunossupressores">Imunossupressores</option>
+          <option value="Hormônios">Hormônios</option>
+          <option value="Anticoncepcionais">Anticoncepcionais</option>
+          <option value="Antipsicóticos">Antipsicóticos</option>
+          <option value="Laxantes">Laxantes</option>
+          <option value="Antieméticos">Antieméticos</option>
+          <option value="Estatinas">Estatinas</option>
+          <option value="Broncodilatadores">Broncodilatadores</option>
         </select>
 
         <label htmlFor="preco">Preço:</label>
         <div className="preco-container">
-          <span>R$</span>
           <input
             type="number"
             id="preco"
-            value={preco}
-            onChange={(e) => setPreco(e.target.value)}
+            name="preco"
+            value={produto.preco}
+            onChange={handleChange}
             placeholder="Preço"
             step="0.01"
           />
         </div>
 
-        <Link to="/CadastrarSucesso"><button type="submit">Confirmar</button></Link>
+        <button type="submit">Confirmar</button>
       </form>
     </div>
   );
