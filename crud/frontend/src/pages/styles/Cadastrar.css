@@ -1,0 +1,68 @@
+
+
+.voltar {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
+
+h1 {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+label {
+    width: 100%;
+    text-align: left;
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 15px;
+}
+
+input, select {
+    background: #555;
+    color: #cacacc;
+    font-size: 18px;
+}
+
+button {
+    background-color: blue;
+    width: 200px;
+    cursor: pointer;
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.preco-container {
+    position: relative;
+}
+
+.preco-container input {
+    padding-left: 40px;
+    width: 100%;
+}
+
+.preco-container::before {
+    content: 'R$';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #cacacc;
+    font-size: 18px;
+}

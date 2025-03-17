@@ -16,6 +16,13 @@
 
 #
 
+### como rodar?
+- abra o terminal
+- abra o diretorio
+- entre na pasta crud -> fronted
+- digite no terminal npm start
+
+#
 # creditos
 
 - João Vitor Alves Bittencourt(Back end, Banco de dados Mysql e Sqlite, Design Front End)

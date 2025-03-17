@@ -1,10 +1,9 @@
 
-
 .voltar {
     position: absolute;
     left: 10px;
     top: 10px;
-    font-size: 30px; 
+    font-size: 30px;
     cursor: pointer;
     color: white;
     text-decoration: none;
@@ -41,33 +40,32 @@ button {
     background-color: #008DF4;
     width: 200px;
     cursor: pointer;
-    margin: 20px auto; 
+    margin: 20px auto;
     padding: 10px;
     border-radius: 10px;
     color: #ffffff;
     font-size: 20px;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #008DF4;
 }
 
 .preco-container {
     position: relative;
 }
 
-.preco-container input {
-    padding-left: 40px; 
-    width: 300px;
+.nome-list {
+    position: absolute;
+    background-color: #555;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    display: block;
+    z-index: 999;
 }
 
-.preco-container::before {
-    content: 'R$';
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #cacacc;
-    font-size: 18px;
+.nome-list div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.nome-list div:hover {
+    background-color: #666;
 }
