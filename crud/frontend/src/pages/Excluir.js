@@ -11,7 +11,7 @@ const Excluir = () => {
   };
 
   const handleExcluir = () => {
-    navigate('/home')
+    navigate('/ProdutoExcluido')
   };
 
   return (
