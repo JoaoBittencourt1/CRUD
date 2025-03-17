@@ -58,7 +58,7 @@ const Listar = () => {
         <input type="text" id="preco" value={produto.preco} readOnly />
       </div>
 
-      <button onClick={handleExcluir}>EXCLUIR</button>
+      <button onClick={handleExcluir}>Voltar</button>
     </div>
   );
 };
