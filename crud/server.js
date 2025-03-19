@@ -2,18 +2,18 @@
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
-require('dotenv').config();  // Para utilizar variáveis de ambiente
+require('dotenv').config(); 
 
 const app = express();
 app.use(cors());
-app.use(express.json()); // Para tratar JSON no corpo da requisição
+app.use(express.json()); 
 
-// Configuração do MySQL (utilizando variáveis de ambiente)
+
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || 'Jv00492789', // Coloque sua senha aqui ou no arquivo .env
-  database: process.env.DB_NAME || 'CRUD',
+  host: process.env.DB_HOST ,
+  user: process.env.DB_USER ,
+  password: process.env.DB_PASSWORD , 
+  database: process.env.DB_NAME ,
 });
 
 db.connect((err) => {
@@ -24,7 +24,7 @@ db.connect((err) => {
   console.log('Conectado ao banco de dados MySQL');
 });
 
-// Rota para pegar dados do banco de dados
+
 app.get('/dados', (req, res) => {
   db.query('SELECT * FROM minha_tabela', (err, results) => {
     if (err) {
