@@ -11,6 +11,8 @@ import CadastrarSucesso from "./pages/CadastrarSucesso";
 import Excluir from "./pages/Excluir";
 import ProdutoExcluido from "./pages/ProdutoExcluido";
 import Listar from "./pages/Listar";
+import AtualizarDados from './pages/AtualizarDados';
+import AtualizarSucesso from './pages/AtualizarSucesso';
 
 
 function App() {
@@ -44,6 +46,10 @@ function App() {
         <Route path="/ProdutoExcluido" element={<ProdutoExcluido />} />
 
         <Route path="/Listar" element={<Listar />} />
+
+        <Route path="AtualizarDados" element={<AtualizarDados />} />
+
+        <Route path="AtualizarSucesso" element={<AtualizarSucesso />} />
       </Routes>
     </Router>
   );
