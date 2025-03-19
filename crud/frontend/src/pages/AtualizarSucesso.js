@@ -8,8 +8,8 @@ const AtualizarSucesso = () => {
     return (
         <div className="container">
             <h1 className="sucesso-mensagem">PRODUTO ATUALIZADO COM SUCESSO!</h1>
-            <button className="voltar-home" onClick={() => navigate("/home")}>
-                Voltar para a Home
+            <button className="voltar-home" onClick={() => navigate("/Dados")}>
+                Voltar para a Dados
             </button>
         </div>
     );
