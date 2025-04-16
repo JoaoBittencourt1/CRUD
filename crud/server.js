@@ -26,14 +26,16 @@ db.connect((err) => {
 
 
 app.get('/dados', (req, res) => {
-  db.query('SELECT * FROM minha_tabela', (err, results) => {
+  db.query('SELECT * FROM Usuario', (err, results) => {
     if (err) {
+      console.error('Erro ao consultar dados:', err);  // Exibe o erro no console
       res.status(500).send('Erro ao consultar dados');
     } else {
       res.json(results);
     }
   });
 });
+
 
 // Iniciar o servidor
 app.listen(5000, () => {

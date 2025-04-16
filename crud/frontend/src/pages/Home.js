@@ -9,7 +9,7 @@ const Home = () => {
   const [dados, setDados] = useState([]); // Estado para armazenar os dados do banco
 
   useEffect(() => {
-    fetch('http://localhost:3001/dados') // Ajuste conforme necessário
+    fetch('http://localhost:3001/dados') 
       .then(response => response.json())
       .then(data => setDados(data))
       .catch(error => console.error('Erro ao buscar os dados:', error));
