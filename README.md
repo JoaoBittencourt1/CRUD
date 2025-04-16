@@ -57,24 +57,5 @@ Antes de começar, certifique-se de ter instalado:
 - npm start
 
 
-#
-# creditos
 
-- João Vitor Alves Bittencourt(Back end, Banco de dados Mysql e Sqlite, Design Front End)
-
-- Tarso Hebert Camilo Vieira(Back end)
-
-- Samuel dos Santos Soares de Mello Mestrinho(Design Front End)
-
-- Jonathan da Cunha Araújo(Front End)
-
-- Rafael De Melo Bianna(Banco de dados mysql e sqlite)
-
-- Paulo Miguel Rodrigues de Jesus Braga(DER banco de dados)
-
-- Gustavo Alves Souza de Oliveria(DER banco de dados)
-
-- Abner Rafael Ribeiro Lima(Front End)
-
-- Yan Henrique Rios Góes Santos(Front End)
 
