@@ -25,12 +25,15 @@ db.connect((err) => {
 });
 
 
-app.get('/dados', (req, res) => {
+app.get('/', (req, res) => {
   db.query('SELECT * FROM Usuario', (err, results) => {
     if (err) {
       console.error('Erro ao consultar dados:', err);  // Exibe o erro no console
       res.status(500).send('Erro ao consultar dados');
     } else {
+      console.log('Tipo de resultado:', typeof results);
+      console.log('Resultado brutos:', results);
+ 
       res.json(results);
     }
   });
