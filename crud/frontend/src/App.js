@@ -13,43 +13,38 @@ import ProdutoExcluido from "./pages/ProdutoExcluido";
 import Listar from "./pages/Listar";
 import AtualizarDados from './pages/AtualizarDados';
 import AtualizarSucesso from './pages/AtualizarSucesso';
-
+import { useAuth } from './contexts/AuthContext'; 
 
 function App() {
+
+  const { isAuthenticated } = useAuth();  
+  
+ 
+  const ProtectedRoute = ({ element }) => {
+    return isAuthenticated ? element : <Navigate to="/home" />; 
+  };
+
   return (
     <Router>
       <Routes>
-        
         <Route path="/" element={<Navigate to="/home" />} />
-        
-        
         <Route path="/home" element={<Home />} />
         
-      
-        <Route path="/dados" element={<Dados />} />
+        {/* Rotas protegidas */}
+        <Route path="/dados" element={<ProtectedRoute element={<Dados />} />} />
+        <Route path="/atualizardados" element={<ProtectedRoute element={<AtualizarDados />} />} />
+        <Route path="/atualizarsucesso" element={<ProtectedRoute element={<AtualizarSucesso />} />} />
+        <Route path="/produtoexcluido" element={<ProtectedRoute element={<ProdutoExcluido />} />} />
+        <Route path="/listar" element={<ProtectedRoute element={<Listar />} />} />
+        <Route path="/excluir" element={<ProtectedRoute element={<Excluir />} />} />
+        <Route path="/cadastrar" element={<ProtectedRoute element={<Cadastrar />} />} />
         
-        
+        {/* Outras rotas */}
         <Route path="/NovaConta" element={<NovaConta />} />
-
         <Route path="/RecuperarSenha" element={<RecuperarSenha />} />
-
         <Route path="/ContaSucesso" element={<ContaSucesso />} />
-
         <Route path="/SenhaRecuperada" element={<SenhaRecuperada />} />
-
-        <Route path="/Cadastrar" element={<Cadastrar />} />
-
         <Route path="/CadastrarSucesso" element={<CadastrarSucesso />} />
-        
-        <Route path="/Excluir" element={<Excluir />} />
-
-        <Route path="/ProdutoExcluido" element={<ProdutoExcluido />} />
-
-        <Route path="/Listar" element={<Listar />} />
-
-        <Route path="AtualizarDados" element={<AtualizarDados />} />
-
-        <Route path="AtualizarSucesso" element={<AtualizarSucesso />} />
       </Routes>
     </Router>
   );

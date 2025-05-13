@@ -1,23 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; 
+import { useAuth } from '../contexts/AuthContext'; // Para acessar o contexto de autenticação
 import './styles/Home.css';
 
 const Home = () => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [lembre, setLembre] = useState(false);
-  const [dados, setDados] = useState([]); // Estado para armazenar os dados do banco
-
-  useEffect(() => {
-    fetch('http://localhost:3001/dados') 
-      .then(response => response.json())
-      .then(data => setDados(data))
-      .catch(error => console.error('Erro ao buscar os dados:', error));
-  }, []);
+  const [erro, setErro] = useState(''); // Para armazenar mensagens de erro de login
+  const { login } = useAuth(); // Pega a função de login do contexto
+  const navigate = useNavigate(); // Hook para navegação programática
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Email:', email, 'Senha:', senha, 'Lembre:', lembre);
+    
+    // Fazendo a chamada para o backend de login
+    fetch('http://localhost:8080/api/login', { // URL para o seu backend
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, senha }), // Envia email e senha no corpo da requisição
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Resposta do login:', data);
+        if (data.message === 'Login bem-sucedido') { // Verifica se a resposta foi sucesso
+          login(); // Marca o usuário como autenticado
+          navigate('/dados'); // Redireciona para a página de dados
+        } else {
+          setErro('Email ou senha inválidos!'); // Mensagem de erro
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao fazer login:', error);
+        setErro('Erro ao realizar login');
+      });
   };
 
   return (
@@ -61,11 +79,9 @@ const Home = () => {
           </section>
         </div>
         <div className="input-submit">
-          <Link to="/dados">
-            <button className="submit-btn" id="submit" type="button"></button>
-          </Link>
-          <label htmlFor="submit">Entrar</label>
+          <button className="submit-btn" id="submit" type="submit">Entrar</button>
         </div>
+        {erro && <div className="erro">{erro}</div>} {/* Exibe erro caso aconteça */}
       </form>
       <div className="sign-up-link">
         <p>Não tem uma conta? <Link to="/NovaConta">Clique aqui</Link></p>
