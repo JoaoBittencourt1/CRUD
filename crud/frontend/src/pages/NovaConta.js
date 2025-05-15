@@ -32,8 +32,7 @@ const NovaConta = () => {
       });
 
       if (response.ok) {
-        alert('Cadastro realizado com sucesso!');
-        navigate('/home');
+        navigate('/ContaSucesso');
       } else {
         const data = await response.json();
         setErro(data.error || 'Erro ao cadastrar');

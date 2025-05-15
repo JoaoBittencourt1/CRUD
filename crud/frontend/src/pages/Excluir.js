@@ -1,56 +1,127 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 
 const Excluir = () => {
   const navigate = useNavigate();
-  const [produtoSelecionado, setProdutoSelecionado] = useState("");
+  const [produtos, setProdutos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
 
-  const handleChange = (e) => {
-    setProdutoSelecionado(e.target.value);
+  const buscarProdutos = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setErro("Você precisa estar logado");
+      setCarregando(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/produtos", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Accept': 'application/json'
+        },
+      });
+
+      if (!res.ok) {
+        const errorData = await parseResponse(res);
+        throw new Error(errorData.error || errorData.message || "Erro ao carregar produtos");
+      }
+
+      const data = await res.json();
+      setProdutos(data);
+    } catch (err) {
+      setErro(err.message);
+      
+    } finally {
+      setCarregando(false);
+    }
   };
 
-  const handleExcluir = () => {
-    navigate('/ProdutoExcluido')
+  useEffect(() => {
+    buscarProdutos();
+  }, []);
+
+  const parseResponse = async (response) => {
+    const contentType = response.headers.get('content-type');
+    try {
+      return contentType?.includes('application/json') 
+        ? await response.json() 
+        : { message: await response.text() };
+    } catch {
+      return { message: "Erro ao processar resposta" };
+    }
   };
+
+  const handleExcluir = async (id) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Você precisa estar logado para excluir produtos");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/produtos/excluir/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      });
+
+      const data = await parseResponse(res);
+
+      if (!res.ok) {
+        throw new Error(data.error || data.message || "Erro ao excluir produto");
+      }
+
+      // Atualiza a lista localmente
+      setProdutos(prev => prev.filter(p => p.id !== id));
+      
+      // Mostra feedback visual ao invés de alert
+      console.log("Sucesso:", data.message);
+      // Aqui você poderia usar um toast de notificação
+      
+    } catch (error) {
+      console.error("Erro na exclusão:", error);
+      alert(error.message);
+    }
+  };
+
+  if (carregando) return <div className="loading">Carregando...</div>;
+  if (erro) return <div className="error">{erro}</div>;
 
   return (
-    <div className="container">
-      <a className="voltar" onClick={() => navigate('/Dados')}>
-        &#8592;
-      </a>
-      <h1>Excluir Produtos</h1>
+    <div className="container excluir-container">
+      <button className="btn-voltar" onClick={() => navigate("/Dados")}>
+        &larr; Voltar
+      </button>
+      
+      <h1 className="titulo-pagina">Excluir Produtos</h1>
 
-      <label htmlFor="tipo" className="label-selecao">
-        Selecione o produto que deseja excluir:
-      </label>
-      <select id="tipo" value={produtoSelecionado} onChange={handleChange}>
-        <option value="" disabled>
-          Selecione um produto
-        </option>
-        <option value="Analgésicos">Analgésicos</option>
-        <option value="Anti-inflamatórios">Anti-inflamatórios</option>
-        <option value="Antibióticos">Antibióticos</option>
-        <option value="Antifúngicos">Antifúngicos</option>
-        <option value="Antivirais">Antivirais</option>
-        <option value="Relaxante Muscular">Relaxante Muscular</option>
-        <option value="Antidepressivos">Antidepressivos</option>
-        <option value="Ansiolíticos">Ansiolíticos</option>
-        <option value="Anti-hipertensivos">Anti-hipertensivos</option>
-        <option value="Antidiabéticos">Antidiabéticos</option>
-        <option value="Anticoagulantes">Anticoagulantes</option>
-        <option value="Antialérgicos">Antialérgicos</option>
-        <option value="Imunossupressores">Imunossupressores</option>
-        <option value="Hormônios">Hormônios</option>
-        <option value="Anticoncepcionais">Anticoncepcionais</option>
-        <option value="Antipsicóticos">Antipsicóticos</option>
-        <option value="Laxantes">Laxantes</option>
-        <option value="Antieméticos">Antieméticos</option>
-        <option value="Estatinas">Estatinas</option>
-        <option value="Broncodilatadores">Broncodilatadores</option>
-      </select>
-
-      <button onClick={handleExcluir}>EXCLUIR</button>
+      {produtos.length === 0 ? (
+        <p className="sem-produtos">Nenhum produto cadastrado.</p>
+      ) : (
+        <ul className="lista-produtos">
+          {produtos.map((produto) => (
+            <li key={produto.id} className="item-produto">
+              <span className="produto-nome">{produto.nome}</span>
+              <button 
+                onClick={() => {
+                  if (window.confirm(`Deseja realmente excluir ${produto.nome}?`)) {
+                    handleExcluir(produto.id);
+                  }
+                }}
+                className="btn-excluir"
+              >
+                Excluir
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
