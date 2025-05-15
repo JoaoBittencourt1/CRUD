@@ -1,77 +1,92 @@
 import React, { useState } from 'react';
-import './styles/NovaConta.css';
-import { useNavigate, Link } from 'react-router-dom';
+import styles from './styles/NovaConta.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const NovaConta = () => {
-  const [nome, setNome] = useState('Nome');
-  const [email, setEmail] = useState('Email');
-  const [senha, setSenha] = useState('Senha');
-  const [confirmarSenha, setConfirmarSenha] = useState('Confirmar senha');
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [erro, setErro] = useState('');
   const navigate = useNavigate();
 
-  const handleFocus = (event) => {
-    if (event.target.value === event.target.defaultValue) {
-      event.target.value = '';
-    }
-  };
+  const handleSubmit = async () => {
+    setErro('');
 
-  const handleBlur = (event) => {
-    if (event.target.value === '') {
-      event.target.value = event.target.defaultValue;
+    if (!nome || !email || !senha || !confirmarSenha) {
+      setErro('Preencha todos os campos');
+      return;
     }
-  };
 
-  const handleSenhaFocus = (event) => {
-    if (event.target.value === '••••••') {
-      event.target.value = '';
-      event.target.type = 'password';
+    if (senha !== confirmarSenha) {
+      setErro('As senhas não coincidem');
+      return;
     }
-  };
 
-  const handleSenhaBlur = (event) => {
-    if (event.target.value === '') {
-      event.target.value = '••••••';
-      event.target.type = 'text';
+    try {
+      const response = await fetch('http://localhost:8080/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, email, senha }),
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        alert('Cadastro realizado com sucesso!');
+        navigate('/home');
+      } else {
+        const data = await response.json();
+        setErro(data.error || 'Erro ao cadastrar');
+      }
+    } catch (err) {
+      setErro('Erro de conexão com o servidor');
     }
   };
 
   return (
-    <div className="container">
-      <a className="voltar" onClick={() => navigate('/home')}>
+    <div className={styles.container}>
+      <a className={styles.voltar} onClick={() => navigate('/home')}>
         &#8592;
       </a>
       <h1>Nova Conta</h1>
+
       <input
+        className={styles.inputField}
         type="text"
+        placeholder="Nome"
         value={nome}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
         onChange={(e) => setNome(e.target.value)}
       />
+      
       <input
+        className={styles.inputField}
         type="email"
+        placeholder="Email"
         value={email}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
         onChange={(e) => setEmail(e.target.value)}
       />
+
       <input
-        type="text"
+        className={styles.inputField}
+        type="password"
+        placeholder="Senha"
         value={senha}
-        onFocus={handleSenhaFocus}
-        onBlur={handleSenhaBlur}
         onChange={(e) => setSenha(e.target.value)}
       />
+
       <input
-        type="text"
+        className={styles.inputField}
+        type="password"
+        placeholder="Confirmar senha"
         value={confirmarSenha}
-        onFocus={handleSenhaFocus}
-        onBlur={handleSenhaBlur}
         onChange={(e) => setConfirmarSenha(e.target.value)}
       />
-      <Link to="/ContaSucesso">
-        <button>Confirmar</button>
-      </Link>
+
+      {erro && <p className={styles.errorMsg}>{erro}</p>}
+
+      <button className={styles.submitBtn} onClick={handleSubmit}>
+        Confirmar
+      </button>
     </div>
   );
 };

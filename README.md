@@ -39,10 +39,13 @@ Antes de começar, certifique-se de ter instalado:
 - cd frontend
 - npm install
 
+
 ### 4 Instale pacotes necessários
 
 - npm install react-scripts --save
 - npm install react-router-dom react-dom axios web-vitals --save
+- npm install axios
+
 
 ### 5  Volte para a raiz do projeto e limpe dependências antigas
 

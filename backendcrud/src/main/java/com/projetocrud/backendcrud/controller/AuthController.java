@@ -1,6 +1,7 @@
 package com.projetocrud.backendcrud.controller;
 
 import com.projetocrud.backendcrud.dto.LoginDTO;
+import com.projetocrud.backendcrud.dto.RegisterDTO;
 import com.projetocrud.backendcrud.model.User;
 import com.projetocrud.backendcrud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,23 @@ public class AuthController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"error\": \"Email ou senha inválidos\"}");
         }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterDTO registerDTO) {
+        // Validar se o email já existe
+        if (userService.findByEmail(registerDTO.getEmail()) != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"error\": \"Email já cadastrado\"}");
+        }
+
+        // Criar o User
+        User user = new User();
+        user.setNome(registerDTO.getNome());
+        user.setEmail(registerDTO.getEmail());
+        user.setSenha(registerDTO.getSenha());
+
+        userService.save(user);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\": \"Usuário criado com sucesso\"}");
     }
 }

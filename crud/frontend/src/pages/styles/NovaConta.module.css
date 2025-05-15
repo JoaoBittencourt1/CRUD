@@ -1,0 +1,61 @@
+.container {
+  width: 400px;
+  margin: 100px auto;
+  padding: 50px;
+  background-color: #38393d;
+  border-radius: 8px;
+  position: relative;
+  text-align: center;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.voltar {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: 30px;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+}
+
+.inputField {
+  width: 100%;
+  padding: 15px 25px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 30px;
+  background: #555;
+  color: #cacacc;
+  font-size: 17px;
+  outline: none;
+}
+
+.inputField::placeholder {
+  color: #8a8a8a;
+  opacity: 1;
+  font-weight: 500;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 15px;
+  margin: 20px 0;
+  border: none;
+  border-radius: 30px;
+  background-color: #008DF4;
+  color: #ffffff;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submitBtn:hover {
+  transform: scale(1.02);
+}
+
+.errorMsg {
+  color: red;
+  margin: 10px 0;
+}

@@ -3,34 +3,34 @@ package com.projetocrud.backendcrud.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "user") // opcional, mas bom declarar, especialmente se o nome for palavra reservada
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(nullable = false, length = 50)
+    private String nome;
+
+    @Column(unique = true, nullable = false, length = 100)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String senha;
-
-    @ManyToOne
-    @JoinColumn(name = "grupo_id") // nome da coluna no banco que referencia o grupo
-    private Grupo grupo;
 
     // Construtores
 
     public User() {
     }
 
-    public User(String email, String senha, Grupo grupo) {
+    public User(String nome, String email, String senha) {
+        this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.grupo = grupo;
     }
 
-    // Getters e setters
+    // Getters e Setters
 
     public Long getId() {
         return id;
@@ -38,6 +38,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {
@@ -54,13 +62,5 @@ public class User {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public Grupo getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
     }
 }
