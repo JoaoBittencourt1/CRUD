@@ -19,17 +19,53 @@ const Cadastrar = () => {
     setProduto((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Produto cadastrado:", produto);
-    navigate("/CadastrarSucesso");
+
+    const usuarioId = localStorage.getItem("usuarioId"); // Pegue o id do usuário do localStorage
+
+    if (!usuarioId) {
+      alert("Usuário não autenticado.");
+      return;
+    }
+
+    const produtoData = {
+      nome: produto.nome,
+      codigoProduto: produto.id,
+      fabricante: produto.fabricante,
+      tipo: produto.tipo,
+      quantidade: Number(produto.quantidade),
+      preco: Number(produto.preco),
+      usuarioId: Number(usuarioId),
+    };
+
+    try {
+      const response = await fetch("http://localhost:8080/api/produtos/cadastrar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(produtoData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao cadastrar produto.");
+      }
+
+      const data = await response.json();
+      console.log("Produto cadastrado com sucesso:", data);
+      navigate("/CadastrarSucesso");
+    } catch (error) {
+      console.error("Erro:", error);
+      alert("Erro ao cadastrar o produto.");
+    }
   };
 
   return (
     <div className="container">
-      <a className="voltar" onClick={() => navigate("/Dados")}>
+      <button className="voltar" onClick={() => navigate("/Dados")}>
         &#8592;
-      </a>
+      </button>
       <h1>Cadastro de Produtos</h1>
 
       <label htmlFor="nome">Nome Produto:</label>

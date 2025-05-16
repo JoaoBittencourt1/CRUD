@@ -10,7 +10,8 @@ const NovaConta = () => {
   const [erro, setErro] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setErro('');
 
     if (!nome || !email || !senha || !confirmarSenha) {
@@ -28,7 +29,6 @@ const NovaConta = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, email, senha }),
-        credentials: 'include',
       });
 
       if (response.ok) {
@@ -49,44 +49,45 @@ const NovaConta = () => {
         &#8592;
       </a>
       <h1>Nova Conta</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          className={styles.inputField}
+          type="text"
+          placeholder="Nome"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+        />
+        
+        <input
+          className={styles.inputField}
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        className={styles.inputField}
-        type="text"
-        placeholder="Nome"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-      />
-      
-      <input
-        className={styles.inputField}
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <input
+          className={styles.inputField}
+          type="password"
+          placeholder="Senha"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+        />
 
-      <input
-        className={styles.inputField}
-        type="password"
-        placeholder="Senha"
-        value={senha}
-        onChange={(e) => setSenha(e.target.value)}
-      />
+        <input
+          className={styles.inputField}
+          type="password"
+          placeholder="Confirmar senha"
+          value={confirmarSenha}
+          onChange={(e) => setConfirmarSenha(e.target.value)}
+        />
 
-      <input
-        className={styles.inputField}
-        type="password"
-        placeholder="Confirmar senha"
-        value={confirmarSenha}
-        onChange={(e) => setConfirmarSenha(e.target.value)}
-      />
+        {erro && <p className={styles.errorMsg}>{erro}</p>}
 
-      {erro && <p className={styles.errorMsg}>{erro}</p>}
-
-      <button className={styles.submitBtn} onClick={handleSubmit}>
-        Confirmar
-      </button>
+        <button className={styles.submitBtn} type="submit">
+          Confirmar
+        </button>
+      </form>
     </div>
   );
 };
