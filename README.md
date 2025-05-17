@@ -8,23 +8,24 @@
 - react
 - mysql
 - javascript
+- jsx
 - html
 - css
-- sqlite
-- drawio
 - git/github
+- java
+- spring
 
 #
 
-# 🚀 Como Rodar o Projeto?
+#  Como Rodar o Frontend?
 
-## 📌 Pré-requisitos
+##  Pré-requisitos
 Antes de começar, certifique-se de ter instalado:
 - [Git](https://git-scm.com/)
 - [Node.js](https://nodejs.org/)
 - [npm](https://www.npmjs.com/)
 
-## 🛠️ Passo a Passo
+##  Passo a Passo
 
 ### 1 Clone o repositório
 
@@ -54,11 +55,37 @@ Antes de começar, certifique-se de ter instalado:
 - rd /s /q node_modules package-lock.json  # Windows (Prompt de Comando)
 - npm install
 
+- !importante pode ser necessario apenas executar **npm install** dentro do projeto frontend!
+
 ### 6 Inicie o projeto no diretório
 
 - cd frontend
 - npm start
 
+###
+
+# como rodar o backend?
+
+## pre requisitos:
+- JDK instalado no sistema
+- recomendado uma IDE como intellij ou eclipse
+- ter acesso aos dados dados de acesso do banco de dados
+
+### passo a passo
+
+
+- dentro do backend caso esteja em uma IDE va ate a pasta src/main/java... e abra o aqruivo BackendApplication.java e rode ele
+
+---
+caso esteja fazendo pelo terminal:
+
+Com Maven (recomendado): 
+
+- ./mvnw spring-boot:run
+
+Ou se tiver o Maven instalado globalmente:
+
+- mvn spring-boot:run
 
 
 
