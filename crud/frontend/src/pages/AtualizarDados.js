@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./styles/AtualizarDados.css";
+import "./styles/AtualizarDados.module.css";
 
 const AtualizarDados = () => {
     const navigate = useNavigate();
@@ -38,6 +38,9 @@ const AtualizarDados = () => {
 
     return (
         <div className="container">
+            <button className="voltar" onClick={() => navigate("/Dados")}>
+        &#8592; Voltar
+      </button>
             <h1>Atualizar Produto</h1>
 
             <label htmlFor="buscar">Buscar Produto:</label>

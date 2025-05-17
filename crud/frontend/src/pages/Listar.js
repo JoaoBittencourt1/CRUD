@@ -1,82 +1,87 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./styles/styleslista/Listar.css";
-
-const medicamentos = [
-  { id: 1, nome: "Analgésicos" },
-  { id: 2, nome: "Anti-inflamatórios" },
-  { id: 3, nome: "Antibióticos" },
-  { id: 4, nome: "Antidepressivos" },
-  { id: 5, nome: "Antialérgicos" },
-  { id: 6, nome: "Anxiolíticos" },
-  { id: 7, nome: "Antipiréticos" }
-];
+import "./styles/styleslista/Listar.module.css";
 
 const Listar = () => {
   const navigate = useNavigate();
+  const [produtos, setProdutos] = useState([]);
   const [filtro, setFiltro] = useState("");
-  const [medicamentoSelecionado, setMedicamentoSelecionado] = useState(null);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState("");
 
-  const resultados = medicamentos.filter((med) =>
-    med.nome.toLowerCase().includes(filtro.toLowerCase())
+  // Busca produtos do backend
+  useEffect(() => {
+    const fetchProdutos = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/produtos");
+        if (!response.ok) throw new Error("Erro ao carregar produtos");
+        const data = await response.json();
+        setProdutos(data);
+      } catch (error) {
+        setErro(error.message);
+      } finally {
+        setCarregando(false);
+      }
+    };
+    fetchProdutos();
+  }, []);
+
+  // Filtra produtos por nome/tipo
+  const produtosFiltrados = produtos.filter(produto =>
+    produto.nome.toLowerCase().includes(filtro.toLowerCase()) ||
+    produto.tipo.toLowerCase().includes(filtro.toLowerCase())
   );
-
-  const selecionarMedicamento = (med) => {
-    setMedicamentoSelecionado({
-      ...med,
-      fabricante: "Fabricante Exemplo",
-      quantidade: "10",
-      preco: "R$ 50,00",
-    });
-    setFiltro(med.nome);
-  };
 
   return (
     <div className="container">
-      <a className="voltar" onClick={() => navigate("/Dados")}>
-        &#8592;
-      </a>
-      <h1>Lista de Produtos</h1>
+      <button className="voltar" onClick={() => navigate("/Dados")}>
+        &#8592; Voltar
+      </button>
+      <h1>Lista de Produtos Cadastrados</h1>
 
-      <label htmlFor="nome">Nome do Medicamento</label>
+      {/* Barra de busca */}
       <input
         type="text"
-        id="nome"
-        placeholder="Digite o nome do medicamento"
+        placeholder="Buscar por nome ou tipo..."
         value={filtro}
         onChange={(e) => setFiltro(e.target.value)}
+        className="busca-input"
       />
 
-      {filtro && (
-        <div className="nome-list">
-          {resultados.map((med) => (
-            <div key={med.id} onClick={() => selecionarMedicamento(med)}>
-              {med.nome}
-            </div>
-          ))}
-        </div>
+      {/* Mensagens de status */}
+      {carregando && <p className="mensagem">Carregando produtos...</p>}
+      {erro && <p className="erro">⚠️ {erro}</p>}
+      {!carregando && produtosFiltrados.length === 0 && (
+        <p className="mensagem">Nenhum produto encontrado.</p>
       )}
 
-      <label htmlFor="tipo">Tipo:</label>
-      <input type="text" id="tipo" value={medicamentoSelecionado?.nome || ""} readOnly />
-
-      <label htmlFor="id">ID Produto:</label>
-      <input type="text" id="id-produto" value={medicamentoSelecionado?.id || ""} readOnly />
-
-      <label htmlFor="fabricante">Fabricante:</label>
-      <input type="text" id="fabricante" value={medicamentoSelecionado?.fabricante || ""} readOnly />
-
-      <label htmlFor="quantidade">Quantidade:</label>
-      <input type="text" id="quantidade" value={medicamentoSelecionado?.quantidade || ""} readOnly />
-
-      <label htmlFor="preco">Preço:</label>
-      <div className="preco-container">
-        <input type="text" id="preco" value={medicamentoSelecionado?.preco || ""} readOnly />
+      {/* Tabela de produtos */}
+      <div className="tabela-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Tipo</th>
+              <th>Fabricante</th>
+              <th>Quantidade</th>
+              <th>Preço (R$)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {produtosFiltrados.map((produto) => (
+              <tr key={produto.id}>
+                <td>{produto.codigoProduto}</td>
+                <td>{produto.nome}</td>
+                <td>{produto.tipo}</td>
+                <td>{produto.fabricante || "-"}</td>
+                <td>{produto.quantidade}</td>
+                <td>{produto.preco.toFixed(2)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-
-      <button onClick={() => navigate("/Dados")}>
-        Voltar
-      </button>
     </div>
   );
 };

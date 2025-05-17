@@ -38,7 +38,7 @@ input, select {
 }
 
 button {
-    background-color: blue;
+    background-color: rgb(147, 138, 138);
     width: 200px;
     cursor: pointer;
     margin: 20px auto;

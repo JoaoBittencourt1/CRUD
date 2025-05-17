@@ -3,7 +3,7 @@ package com.projetocrud.backend.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "produto")
+@Table(name = "produtos") // Recomendado usar nome no plural (convenção SQL)
 public class Produto {
 
     @Id
@@ -14,7 +14,7 @@ public class Produto {
     private String nome;
 
     @Column(nullable = false, unique = true)
-    private String codigoProduto; // ID do produto (diferente do ID do banco)
+    private String codigoProduto;
 
     @Column(nullable = false)
     private String fabricante;
@@ -28,27 +28,27 @@ public class Produto {
     @Column(nullable = false)
     private double preco;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true) // Usuário é opcional
+    @JoinColumn(name = "usuario_id", nullable = true)   // Aceita NULL no banco
     private User usuario;
 
-    // Construtores
-
+    // Construtor padrão (obrigatório para JPA)
     public Produto() {
     }
 
-    public Produto(String nome, String codigoProduto, String fabricante, String tipo, int quantidade, double preco, User usuario) {
+    // Construtor com todos os campos
+    public Produto(String nome, String codigoProduto, String fabricante,
+                   String tipo, int quantidade, double preco, User usuario) {
         this.nome = nome;
         this.codigoProduto = codigoProduto;
         this.fabricante = fabricante;
         this.tipo = tipo;
         this.quantidade = quantidade;
         this.preco = preco;
-        this.usuario = usuario;
+        this.usuario = usuario; // Pode ser NULL
     }
 
-    // Getters e Setters
-
+    // --- Getters e Setters ---
     public Long getId() {
         return id;
     }

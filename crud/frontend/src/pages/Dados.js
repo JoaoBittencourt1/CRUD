@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+
 import { Link } from 'react-router-dom';
-import './styles/Dados.css';
+import './styles/Dados.module.css';
 
 function Dados() {
-  const [dados, setDados] = useState([]);
+ 
 
-  useEffect(() => {
-    axios.get('http://localhost:5000/dados')
-      .then(response => setDados(response.data))
-      .catch(error => console.error('Erro ao buscar dados', error));
-  }, []);
+  
 
   return (
     <div className="container">

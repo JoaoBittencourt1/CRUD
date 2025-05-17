@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./styles/Cadastrar.css"; // Importando o CSS
+import "./styles/Cadastrar.module.css";
 
 const Cadastrar = () => {
-  const navigate = useNavigate(); // Hook para navegação
-
+  const navigate = useNavigate();
   const [produto, setProduto] = useState({
     nome: "",
     id: "",
@@ -13,6 +12,8 @@ const Cadastrar = () => {
     quantidade: 0,
     preco: "",
   });
+  const [erro, setErro] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (event) => {
     const { id, value } = event.target;
@@ -21,22 +22,32 @@ const Cadastrar = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setErro("");
+    setIsSubmitting(true);
 
-    const usuarioId = localStorage.getItem("usuarioId"); // Pegue o id do usuário do localStorage
+    // Validação avançada
+    if (!produto.nome.trim() || !produto.id.trim() || !produto.tipo) {
+      setErro("Preencha todos os campos obrigatórios (*)");
+      setIsSubmitting(false);
+      return;
+    }
 
-    if (!usuarioId) {
-      alert("Usuário não autenticado.");
+    if (produto.quantidade < 0) {
+      setErro("Quantidade não pode ser negativa");
+      setIsSubmitting(false);
       return;
     }
 
     const produtoData = {
-      nome: produto.nome,
-      codigoProduto: produto.id,
-      fabricante: produto.fabricante,
+      nome: produto.nome.trim(),
+      codigoProduto: produto.id.trim(),
+      fabricante: produto.fabricante.trim(),
       tipo: produto.tipo,
-      quantidade: Number(produto.quantidade),
-      preco: Number(produto.preco),
-      usuarioId: Number(usuarioId),
+      quantidade: Math.max(0, Number(produto.quantidade)), // Garante valor positivo
+      preco: parseFloat(produto.preco) || 0,
+      usuarioId: localStorage.getItem("usuarioId") 
+                ? Number(localStorage.getItem("usuarioId")) 
+                : null
     };
 
     try {
@@ -49,38 +60,78 @@ const Cadastrar = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Erro ao cadastrar produto.");
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Erro no servidor");
       }
 
       const data = await response.json();
-      console.log("Produto cadastrado com sucesso:", data);
-      navigate("/CadastrarSucesso");
+      navigate("/CadastrarSucesso", { state: { produto: data } });
     } catch (error) {
       console.error("Erro:", error);
-      alert("Erro ao cadastrar o produto.");
+      setErro(error.message || "Falha ao conectar com o servidor");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="container">
-      <button className="voltar" onClick={() => navigate("/Dados")}>
-        &#8592;
+      <button 
+        className="voltar" 
+        onClick={() => navigate("/Dados")}
+        disabled={isSubmitting}
+      >
+        &#8592; Voltar
       </button>
+
       <h1>Cadastro de Produtos</h1>
 
-      <label htmlFor="nome">Nome Produto:</label>
-      <input type="text" id="nome" value={produto.nome} onChange={handleChange} />
+      {erro && (
+        <div className="erro-mensagem">
+          ⚠️ {erro}
+        </div>
+      )}
 
-      <label htmlFor="id">ID Produto:</label>
-      <input type="text" id="id" value={produto.id} onChange={handleChange} />
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="nome">Nome do Produto:*</label>
+        <input
+          type="text"
+          id="nome"
+          value={produto.nome}
+          onChange={handleChange}
+          disabled={isSubmitting}
+          required
+        />
 
-      <label htmlFor="fabricante">Fabricante:</label>
-      <input type="text" id="fabricante" value={produto.fabricante} onChange={handleChange} />
+        <label htmlFor="id">Código do Produto:*</label>
+        <input
+          type="text"
+          id="id"
+          value={produto.id}
+          onChange={handleChange}
+          disabled={isSubmitting}
+          required
+        />
 
-      <label htmlFor="tipo">Tipo:</label>
-      <select id="tipo" value={produto.tipo} onChange={handleChange}>
-        <option value="" disabled>Selecione o tipo do medicamento</option>
-        <option value="Analgésicos">Analgésicos</option>
+        <label htmlFor="fabricante">Fabricante:</label>
+        <input
+          type="text"
+          id="fabricante"
+          value={produto.fabricante}
+          onChange={handleChange}
+          disabled={isSubmitting}
+        />
+
+        <label htmlFor="tipo">Tipo:*</label>
+        <select
+          id="tipo"
+          value={produto.tipo}
+          onChange={handleChange}
+          disabled={isSubmitting}
+          required
+        >
+          <option value="" disabled>Selecione...</option>
+          <option value="Analgésicos">Analgésicos</option>
         <option value="Anti-inflamatórios">Anti-inflamatórios</option>
         <option value="Antibióticos">Antibióticos</option>
         <option value="Antifúngicos">Antifúngicos</option>
@@ -100,17 +151,49 @@ const Cadastrar = () => {
         <option value="Antieméticos">Antieméticos</option>
         <option value="Estatinas">Estatinas</option>
         <option value="Broncodilatadores">Broncodilatadores</option>
-      </select>
+          
+        </select>
 
-      <label htmlFor="quantidade">Quantidade:</label>
-      <input type="number" id="quantidade" value={produto.quantidade} onChange={handleChange} />
+        <label htmlFor="quantidade">Quantidade:</label>
+        <input
+          type="number"
+          id="quantidade"
+          min="0"
+          value={produto.quantidade}
+          onChange={handleChange}
+          disabled={isSubmitting}
+        />
 
-      <label htmlFor="preco">Preço:</label>
-      <div className="preco-container">
-        <input type="number" id="preco" value={produto.preco} onChange={handleChange} step="0.01" />
+        <label htmlFor="preco">Preço (R$):</label>
+        <div className="preco-container">
+          <input
+            type="number"
+            id="preco"
+            min="0"
+            step="0.01"
+            value={produto.preco}
+            onChange={handleChange}
+            placeholder="0,00"
+            disabled={isSubmitting}
+          />
+        </div>
+
+        <button 
+          type="submit" 
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Cadastrando..." : "Confirmar"}
+        </button>
+      </form>
+
+      <div className="observacao">
+        <p>* Campos obrigatórios</p>
+        {!localStorage.getItem("usuarioId") && (
+          <p className="aviso">
+            ⓘ Produto será cadastrado sem vínculo com usuário
+          </p>
+        )}
       </div>
-
-      <button onClick={handleSubmit}>Confirmar</button>
     </div>
   );
 };

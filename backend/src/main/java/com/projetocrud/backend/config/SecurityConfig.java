@@ -11,13 +11,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // Configuração CORS (integra com o CorsFilter que você já tem)
+                .cors(cors -> cors.configure(http))
+
+                // Desativa CSRF (não necessário para APIs stateless)
                 .csrf(csrf -> csrf.disable())
+
+                // Configuração de autorização
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/login", "/api/register").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form -> form.disable())
-                .httpBasic(httpBasic -> httpBasic.disable()); // desativa autenticação básica
+                        // Libera todas as rotas sem autenticação
+                        .anyRequest().permitAll()
+                );
 
         return http.build();
     }

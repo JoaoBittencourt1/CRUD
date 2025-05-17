@@ -21,7 +21,8 @@ public class AuthController {
         User user = userService.findByEmail(loginDTO.getEmail());
 
         if (user != null && user.getSenha().equals(loginDTO.getSenha())) {
-            return ResponseEntity.ok().body("{\"message\": \"Login bem-sucedido\"}");
+            // Modificado para retornar o ID do usuário
+            return ResponseEntity.ok().body("{\"id\": \"" + user.getId() + "\", \"message\": \"Login bem-sucedido\"}");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"error\": \"Email ou senha inválidos\"}");
         }
