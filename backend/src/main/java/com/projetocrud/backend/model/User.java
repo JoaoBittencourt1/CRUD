@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "usuarios") // 'user' é palavra reservada em alguns bancos, cuidado
+@Table(name = "usuarios") //
 public class User {
 
     @Id
@@ -24,8 +24,6 @@ public class User {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Produto> produtos = new ArrayList<>();
 
-    // Construtores
-
     public User() {
     }
 
@@ -34,8 +32,6 @@ public class User {
         this.email = email;
         this.senha = senha;
     }
-
-    // Getters e Setters
 
     public Long getId() {
         return id;

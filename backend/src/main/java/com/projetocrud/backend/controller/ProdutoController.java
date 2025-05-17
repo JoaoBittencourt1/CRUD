@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/produtos")
@@ -33,11 +34,9 @@ public class ProdutoController {
             return ResponseEntity.badRequest().body("Quantidade não pode ser negativa");
         }
 
-        // Só busca o usuário se o ID for fornecido
         if (request.usuarioId() != null) {
             usuario = userRepository.findById(request.usuarioId()).orElse(null);
 
-            // Opcional: Valida se o usuário existe
             if (usuario == null) {
                 return ResponseEntity.badRequest().body("Usuário não encontrado");
             }
@@ -50,7 +49,7 @@ public class ProdutoController {
                 request.tipo(),
                 request.quantidade(),
                 request.preco(),
-                usuario // Pode ser null
+                usuario
         );
 
         Produto salvo = produtoRepository.save(produto);
@@ -66,9 +65,42 @@ public class ProdutoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirProduto(@PathVariable Long id) {
         if (!produtoRepository.existsById(id)) {
-            return ResponseEntity.notFound().build(); // 404 se não existir
+            return ResponseEntity.notFound().build();
         }
         produtoRepository.deleteById(id);
-        return ResponseEntity.noContent().build(); // Retorna 204 (sucesso)
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<Produto> buscarProduto(
+            @RequestParam String termo) {
+
+
+        if (termo.matches("\\d+")) {
+            Optional<Produto> porId = produtoRepository.findById(Long.parseLong(termo));
+            if (porId.isPresent()) return ResponseEntity.ok(porId.get());
+        }
+
+
+        List<Produto> porNome = produtoRepository.findByNomeContaining(termo);
+        if (!porNome.isEmpty()) {
+            return ResponseEntity.ok(porNome.get(0));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Produto> atualizarProduto(
+            @PathVariable Long id,
+            @RequestBody Produto produtoAtualizado) {
+
+        if (!produtoRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        produtoAtualizado.setId(id);
+        Produto salvo = produtoRepository.save(produtoAtualizado);
+        return ResponseEntity.ok(salvo);
     }
 }

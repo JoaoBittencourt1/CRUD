@@ -1,35 +1,35 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; 
-import { useAuth } from '../contexts/AuthContext'; // Para acessar o contexto de autenticação
+import { useAuth } from '../contexts/AuthContext'; 
 import './styles/Home.css';
 
 const Home = () => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [lembre, setLembre] = useState(false);
-  const [erro, setErro] = useState(''); // Para armazenar mensagens de erro de login
-  const { login } = useAuth(); // Pega a função de login do contexto
-  const navigate = useNavigate(); // Hook para navegação programática
+  const [erro, setErro] = useState(''); 
+  const { login } = useAuth(); 
+  const navigate = useNavigate(); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Fazendo a chamada para o backend de login
-    fetch('http://localhost:8080/api/login', { // URL para o seu backend
+   
+    fetch('http://localhost:8080/api/login', { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, senha }), // Envia email e senha no corpo da requisição
+      body: JSON.stringify({ email, senha }), 
     })
       .then(response => response.json())
       .then(data => {
         console.log('Resposta do login:', data);
-        if (data.message === 'Login bem-sucedido') { // Verifica se a resposta foi sucesso
-          login(); // Marca o usuário como autenticado
-          navigate('/dados'); // Redireciona para a página de dados
+        if (data.message === 'Login bem-sucedido') { 
+          login(); 
+          navigate('/dados'); 
         } else {
-          setErro('Email ou senha inválidos!'); // Mensagem de erro
+          setErro('Email ou senha inválidos!'); 
         }
       })
       .catch(error => {
@@ -81,7 +81,7 @@ const Home = () => {
         <div className="input-submit">
           <button className="submit-btn" id="submit" type="submit">Entrar</button>
         </div>
-        {erro && <div className="erro">{erro}</div>} {/* Exibe erro caso aconteça */}
+        {erro && <div className="erro">{erro}</div>} 
       </form>
       <div className="sign-up-link">
         <p>Não tem uma conta? <Link to="/NovaConta">Clique aqui</Link></p>

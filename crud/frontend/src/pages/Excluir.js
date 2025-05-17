@@ -9,7 +9,6 @@ const Excluir = () => {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
-  // Busca produtos do backend
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
@@ -40,7 +39,7 @@ const Excluir = () => {
 
       if (!response.ok) throw new Error("Erro ao excluir produto");
       
-      navigate("/ProdutoExcluido"); // Página de confirmação
+      navigate("/ProdutoExcluido"); 
     } catch (error) {
       setErro(error.message);
     }

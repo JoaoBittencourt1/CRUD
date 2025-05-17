@@ -1,8 +1,8 @@
 package com.projetocrud.backend.dto;
 
-public class LoginDTO {
+public class RecuperarSenhaRequest {
     private String email;
-    private String senha;
+    private String novaSenha;
 
     public String getEmail() {
         return email;
@@ -12,11 +12,11 @@ public class LoginDTO {
         this.email = email;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getNovaSenha() {
+        return novaSenha;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setNovaSenha(String novaSenha) {
+        this.novaSenha = novaSenha;
     }
 }

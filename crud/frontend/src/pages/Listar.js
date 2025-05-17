@@ -9,7 +9,6 @@ const Listar = () => {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
-  // Busca produtos do backend
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
@@ -26,7 +25,6 @@ const Listar = () => {
     fetchProdutos();
   }, []);
 
-  // Filtra produtos por nome/tipo
   const produtosFiltrados = produtos.filter(produto =>
     produto.nome.toLowerCase().includes(filtro.toLowerCase()) ||
     produto.tipo.toLowerCase().includes(filtro.toLowerCase())
@@ -40,7 +38,6 @@ const Listar = () => {
       <h1>Lista de Produtos Cadastrados</h1>
  
       <h1>pequise o nome do produto para encontralo</h1>
-      {/* Barra de busca */}
       <input
         type="text"
         placeholder="Buscar por nome ou tipo..."
@@ -49,14 +46,12 @@ const Listar = () => {
         className="busca-input"
       />
 
-      {/* Mensagens de status */}
       {carregando && <p className="mensagem">Carregando produtos...</p>}
       {erro && <p className="erro">⚠️ {erro}</p>}
       {!carregando && produtosFiltrados.length === 0 && (
         <p className="mensagem">Nenhum produto encontrado.</p>
       )}
 
-      {/* Tabela de produtos */}
       <div className="tabela-container">
         <table>
           <thead>
