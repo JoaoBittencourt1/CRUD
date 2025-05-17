@@ -1,56 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 
 const Excluir = () => {
   const navigate = useNavigate();
+  const [produtos, setProdutos] = useState([]);
   const [produtoSelecionado, setProdutoSelecionado] = useState("");
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState("");
 
-  const handleChange = (e) => {
-    setProdutoSelecionado(e.target.value);
-  };
+  // Busca produtos do backend
+  useEffect(() => {
+    const fetchProdutos = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/produtos");
+        if (!response.ok) throw new Error("Erro ao carregar produtos");
+        const data = await response.json();
+        setProdutos(data);
+      } catch (error) {
+        setErro("Falha na conexão com o servidor");
+      } finally {
+        setCarregando(false);
+      }
+    };
+    fetchProdutos();
+  }, []);
 
-  const handleExcluir = () => {
-    navigate('/ProdutoExcluido')
+  const handleExcluir = async () => {
+    if (!produtoSelecionado) {
+      setErro("Selecione um produto para excluir");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/produtos/${produtoSelecionado}`,
+        { method: "DELETE" }
+      );
+
+      if (!response.ok) throw new Error("Erro ao excluir produto");
+      
+      navigate("/ProdutoExcluido"); // Página de confirmação
+    } catch (error) {
+      setErro(error.message);
+    }
   };
 
   return (
     <div className="container">
-      <a className="voltar" onClick={() => navigate('/Dados')}>
-        &#8592;
-      </a>
-      <h1>Excluir Produtos</h1>
+      <button className="voltar" onClick={() => navigate("/Dados")}>
+        &#8592; Voltar
+      </button>
+      <h1>Excluir Produto</h1>
 
-      <label htmlFor="tipo" className="label-selecao">
-        Selecione o produto que deseja excluir:
+      {erro && <div className="erro-mensagem">{erro}</div>}
+
+      <label htmlFor="produto">
+        Selecione o produto:
       </label>
-      <select id="tipo" value={produtoSelecionado} onChange={handleChange}>
+      <select
+        id="produto"
+        value={produtoSelecionado}
+        onChange={(e) => setProdutoSelecionado(e.target.value)}
+        disabled={carregando}
+      >
         <option value="" disabled>
-          Selecione um produto
+          {carregando ? "Carregando..." : "Selecione um produto"}
         </option>
-        <option value="Analgésicos">Analgésicos</option>
-        <option value="Anti-inflamatórios">Anti-inflamatórios</option>
-        <option value="Antibióticos">Antibióticos</option>
-        <option value="Antifúngicos">Antifúngicos</option>
-        <option value="Antivirais">Antivirais</option>
-        <option value="Relaxante Muscular">Relaxante Muscular</option>
-        <option value="Antidepressivos">Antidepressivos</option>
-        <option value="Ansiolíticos">Ansiolíticos</option>
-        <option value="Anti-hipertensivos">Anti-hipertensivos</option>
-        <option value="Antidiabéticos">Antidiabéticos</option>
-        <option value="Anticoagulantes">Anticoagulantes</option>
-        <option value="Antialérgicos">Antialérgicos</option>
-        <option value="Imunossupressores">Imunossupressores</option>
-        <option value="Hormônios">Hormônios</option>
-        <option value="Anticoncepcionais">Anticoncepcionais</option>
-        <option value="Antipsicóticos">Antipsicóticos</option>
-        <option value="Laxantes">Laxantes</option>
-        <option value="Antieméticos">Antieméticos</option>
-        <option value="Estatinas">Estatinas</option>
-        <option value="Broncodilatadores">Broncodilatadores</option>
+        {produtos.map((produto) => (
+          <option key={produto.id} value={produto.id}>
+            {produto.nome} (Código: {produto.codigoProduto})
+          </option>
+        ))}
       </select>
 
-      <button onClick={handleExcluir}>EXCLUIR</button>
+      <button
+        onClick={handleExcluir}
+        disabled={!produtoSelecionado || carregando}
+      >
+        {carregando ? "Carregando..." : "EXCLUIR"}
+      </button>
     </div>
   );
 };

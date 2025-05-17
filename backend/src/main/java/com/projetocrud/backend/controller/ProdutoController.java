@@ -62,4 +62,13 @@ public class ProdutoController {
         List<Produto> produtos = produtoRepository.findAll();
         return ResponseEntity.ok(produtos);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirProduto(@PathVariable Long id) {
+        if (!produtoRepository.existsById(id)) {
+            return ResponseEntity.notFound().build(); // 404 se não existir
+        }
+        produtoRepository.deleteById(id);
+        return ResponseEntity.noContent().build(); // Retorna 204 (sucesso)
+    }
 }

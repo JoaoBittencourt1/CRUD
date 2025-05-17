@@ -38,7 +38,8 @@ const Listar = () => {
         &#8592; Voltar
       </button>
       <h1>Lista de Produtos Cadastrados</h1>
-
+ 
+      <h1>pequise o nome do produto para encontralo</h1>
       {/* Barra de busca */}
       <input
         type="text"
