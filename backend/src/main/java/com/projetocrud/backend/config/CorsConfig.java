@@ -16,7 +16,7 @@ public class CorsConfig {
 
         // Configurações específicas para desenvolvimento
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:3000"); // Seu frontend React
+        config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setMaxAge(3600L);
